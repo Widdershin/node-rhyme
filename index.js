@@ -40,22 +40,26 @@ module.exports = function (cb) {
         return rhymes;
     };
 
-    var s = fs.createReadStream(dictFile);
+    function processDictionary (dictionary) {
+        dictionary.split("\n").forEach(function (line) {
+            if (!line.match(/^[A-Z]/i)) {
+              return;
+            }
 
-    s.on('end', function () {
-        cb(self);
-    });
-
-    Lazy(s).lines.map(String).forEach(function (line) {
-        if (line.match(/^[A-Z]/i)) {
             var words = line.split(/\s+/);
             var w = words[0].replace(/\(\d+\)$/, '');
 
             if (!dict[w]) dict[w] = [];
             dict[w].push(words.slice(1));
-        }
+        })
+    }
+
+    fs.readFile(dictFile, 'utf8', function (err, data) {
+        processDictionary(data);
+
+        cb(self);
     });
-};
+}
 
 function active (ws) {
     // active rhyming region: slice off the leading consonants
