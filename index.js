@@ -2,8 +2,6 @@ var fs = require('fs');
 var Lazy = require('lazy');
 var Hash = require('hashish');
 
-var dictFile = __dirname + '/data/cmudict.0.7a';
-
 module.exports = function (cb) {
     var self = {};
     var dict = {};
@@ -54,7 +52,7 @@ module.exports = function (cb) {
         })
     }
 
-    fs.readFile(dictFile, 'utf8', function (err, data) {
+    fs.readFile(__dirname + '/data/cmudict.0.7a', null, function (err, data) {
         processDictionary(data);
 
         cb(self);
