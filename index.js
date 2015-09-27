@@ -52,7 +52,7 @@ module.exports = function (cb) {
         })
     }
 
-    fs.readFile(__dirname + '/data/cmudict.0.7a', null, function (err, data) {
+    fs.readFile(__dirname + '/data/cmudict.0.7a', 'utf8', function (err, data) {
         processDictionary(data);
 
         cb(self);
